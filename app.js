@@ -11,7 +11,7 @@ http.createServer((req, res) => {
         res.setHeader('Location', '/newpage');
     }
     else if (req.url === '/newpage') {
-        res.write("<h2>New address/h2>")
+        res.write("<h2>New address</h2>")
     }
     // реализовал маршрутизацию
     else if (req.url === '/home') {
