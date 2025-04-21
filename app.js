@@ -3,7 +3,7 @@ const fs = require('fs');
 
 http.createServer(async (req, res) => {
     // res.setHeader('UserId', '666666');
-    res.setHeader('Content-Type', 'text/html; charset=utf-8;');
+    // res.setHeader('Content-Type', 'text/html; charset=utf-8;');
 
 
     // реализовал отправку файлов
@@ -73,16 +73,25 @@ http.createServer(async (req, res) => {
 
 
     // реализовал получение данных от клиента при помощи перебора объекта req
-    if (req.url === '/user') {
-        let buffers = [];
+    // if (req.url === '/user') {
+    //     let buffers = [];
 
-        for await (const chunk of req) {
-            buffers.push(chunk);
-        }
-        const data = Buffer.concat(buffers).toString();
-        console.log(data);
-        res.end('Данные успешно записаны');
-    }else{
-        fs.readFile("index.html", (err, data) => res.end(data));
-    }
+    //     for await (const chunk of req) {
+    //         buffers.push(chunk);
+    //     }
+    //     const data = Buffer.concat(buffers).toString();
+    //     console.log(data);
+    //     res.end('Данные успешно записаны');
+    // }else{
+    //     fs.readFile("index.html", (err, data) => res.end(data));
+    // }
+
+
+    // использовал шаблоны
+    fs.readFile("index.html", "utf8", function(err, data) {
+        let message = "Привет я делаю 6 кт по NODEJS";
+        let header = "Главная страница";
+        data = data.replace("{header}", header).replace("{message}", message);
+        res.end(data);
+    }); 
 }).listen(3000);
