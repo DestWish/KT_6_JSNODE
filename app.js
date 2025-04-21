@@ -3,14 +3,14 @@ const fs = require('fs');
 
 http.createServer((req, res) => {
     // res.setHeader('UserId', '666666');
-    // res.setHeader('Content-Type', 'text/html; charset=utf-8;');
+    res.setHeader('Content-Type', 'text/html; charset=utf-8;');
 
 
     // реализовал отправку файлов
     // первый способ:
-    console.log(`Запрошенный адресс ${req.url}`);
+    // console.log(`Запрошенный адресс ${req.url}`);
 
-    const filePath = req.url.substr(1);
+    // const filePath = req.url.substr(1);
 
     // fs.access(filePath, fs.constants.R_OK, err => {
     //     if (err) {
@@ -22,14 +22,14 @@ http.createServer((req, res) => {
     // });
 
     // второй способ:
-    fs.readFile(filePath, (err, data) => {
-        if (err) {
-            res.statusCode = 404;
-            res.end("File not found");
-        } else {
-            res.end(data);
-        }
-    });
+    // fs.readFile(filePath, (err, data) => {
+    //     if (err) {
+    //         res.statusCode = 404;
+    //         res.end("File not found");
+    //     } else {
+    //         res.end(data);
+    //     }
+    // });
 
 
     // реализовал переадресацию
@@ -54,4 +54,20 @@ http.createServer((req, res) => {
     //     res.write("<h2>Not Found</h2>")
     // }
     // res.end();
+
+
+    // реализовал получение данных от клиента при помощи событий data 
+    if (req.url === '/user') {
+        
+        let data = '';
+        req.on('data', chunk => {
+            data += chunk;
+        });
+        req.on('end', () => {
+            console.log(data);
+            res.end('<h2>Данные успешно записаны</h2>');
+        });
+    }else{
+        fs.readFile("index.html", (err, data) => res.end(data));
+    }
 }).listen(3000);
