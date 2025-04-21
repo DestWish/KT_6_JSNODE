@@ -1,9 +1,9 @@
 const http = require('http');
 const fs = require('fs');
 
-http.createServer((req, res) => {
+http.createServer(async (req, res) => {
     // res.setHeader('UserId', '666666');
-    // res.setHeader('Content-Type', 'text/html; charset=utf-8;');
+    res.setHeader('Content-Type', 'text/html; charset=utf-8;');
 
 
     // реализовал отправку файлов
@@ -82,4 +82,7 @@ http.createServer((req, res) => {
         const data = Buffer.concat(buffers).toString();
         console.log(data);
         res.end('Данные успешно записаны');
+    }else{
+        fs.readFile("index.html", (err, data) => res.end(data));
+    }
 }).listen(3000);
