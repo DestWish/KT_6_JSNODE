@@ -3,7 +3,7 @@ const fs = require('fs');
 
 http.createServer((req, res) => {
     // res.setHeader('UserId', '666666');
-    res.setHeader('Content-Type', 'text/html; charset=utf-8;');
+    // res.setHeader('Content-Type', 'text/html; charset=utf-8;');
 
 
     // реализовал отправку файлов
@@ -57,17 +57,29 @@ http.createServer((req, res) => {
 
 
     // реализовал получение данных от клиента при помощи событий data 
-    if (req.url === '/user') {
+    // if (req.url === '/user') {
         
-        let data = '';
-        req.on('data', chunk => {
-            data += chunk;
-        });
-        req.on('end', () => {
-            console.log(data);
-            res.end('<h2>Данные успешно записаны</h2>');
-        });
-    }else{
-        fs.readFile("index.html", (err, data) => res.end(data));
-    }
+    //     let data = '';
+    //     req.on('data', chunk => {
+    //         data += chunk;
+    //     });
+    //     req.on('end', () => {
+    //         console.log(data);
+    //         res.end('<h2>Данные успешно записаны</h2>');
+    //     });
+    // }else{
+    //     fs.readFile("index.html", (err, data) => res.end(data));
+    // }
+
+
+    // реализовал получение данных от клиента при помощи перебора объекта req
+    if (req.url === '/user') {
+        let buffers = [];
+
+        for await (const chunk of req) {
+            buffers.push(chunk);
+        }
+        const data = Buffer.concat(buffers).toString();
+        console.log(data);
+        res.end('Данные успешно записаны');
 }).listen(3000);
