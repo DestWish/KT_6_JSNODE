@@ -12,14 +12,26 @@ http.createServer((req, res) => {
 
     const filePath = req.url.substr(1);
 
-    fs.access(filePath, fs.constants.R_OK, err => {
+    // fs.access(filePath, fs.constants.R_OK, err => {
+    //     if (err) {
+    //         res.statusCode = 404;
+    //         res.end("File not found");
+    //     } else {
+    //         fs.createReadStream(filePath).pipe(res);
+    //     }
+    // });
+
+    // второй способ:
+    fs.readFile(filePath, (err, data) => {
         if (err) {
             res.statusCode = 404;
             res.end("File not found");
         } else {
-            fs.createReadStream(filePath).pipe(res);
+            res.end(data);
         }
     });
+
+
     // реализовал переадресацию
     // if (req.url === '/') {
     //     res.statusCode = 302;
