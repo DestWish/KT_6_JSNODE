@@ -2,41 +2,44 @@ const http = require('http');
 const fs = require('fs');
 
 http.createServer((req, res) => {
-    res.setHeader('UserId', '666666');
-    res.setHeader('Content-Type', 'text/html; charset=utf-8;');
+    // res.setHeader('UserId', '666666');
+    // res.setHeader('Content-Type', 'text/html; charset=utf-8;');
 
 
     // реализовал отправку файлов
     // первый способ:
     console.log(`Запрошенный адресс ${req.url}`);
+
     const filePath = req.url.substr(1);
-    fs.access(filePath, fs.constants.R_OK, (err) => {
+
+    fs.access(filePath, fs.constants.R_OK, err => {
         if (err) {
             res.statusCode = 404;
             res.end("File not found");
         } else {
             fs.createReadStream(filePath).pipe(res);
-        }});
+        }
+    });
     // реализовал переадресацию
-    if (req.url === '/') {
-        res.statusCode = 302;
-        res.setHeader('Location', '/newpage');
-    }
-    else if (req.url === '/newpage') {
-        res.write("<h2>New address</h2>")
-    }
-    // реализовал маршрутизацию
-    else if (req.url === '/home') {
-        res.write("<h2>home</h2>")
-    }
-    else if (req.url == '/abou1') {
-        res.write("<h2>About1</h2>")
-    }
-    else if (req.url == '/contact') {
-        res.write("<h2>Contacts</h2>")
-    }
-    else {
-        res.write("<h2>Not Found</h2>")
-    }
-    res.end();
+    // if (req.url === '/') {
+    //     res.statusCode = 302;
+    //     res.setHeader('Location', '/newpage');
+    // }
+    // else if (req.url === '/newpage') {
+    //     res.write("<h2>New address</h2>")
+    // }
+    // // реализовал маршрутизацию
+    // else if (req.url === '/home') {
+    //     res.write("<h2>home</h2>")
+    // }
+    // else if (req.url == '/abou1') {
+    //     res.write("<h2>About1</h2>")
+    // }
+    // else if (req.url == '/contact') {
+    //     res.write("<h2>Contacts</h2>")
+    // }
+    // else {
+    //     res.write("<h2>Not Found</h2>")
+    // }
+    // res.end();
 }).listen(3000);
