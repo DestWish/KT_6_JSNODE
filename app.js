@@ -4,7 +4,17 @@ http.createServer((req, res) => {
     res.setHeader('UserId', '666666');
     res.setHeader('Content-Type', 'text/html; charset=utf-8;');
 
-    if (req.url === '/home' || req.url === '/') {
+
+    // реализовал переадресацию
+    if (req.url === '/') {
+        res.statusCode = 302;
+        res.setHeader('Location', '/newpage');
+    }
+    else if (req.url === '/newpage') {
+        res.write("<h2>New address/h2>")
+    }
+    // реализовал маршрутизацию
+    else if (req.url === '/home') {
         res.write("<h2>home</h2>")
     }
     else if (req.url == '/about') {
