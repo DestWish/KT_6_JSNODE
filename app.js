@@ -29,8 +29,8 @@ http.createServer((req, res) => {
     else if (req.url === '/home') {
         res.write("<h2>home</h2>")
     }
-    else if (req.url == '/about') {
-        res.write("<h2>About</h2>")
+    else if (req.url == '/abou1') {
+        res.write("<h2>About1</h2>")
     }
     else if (req.url == '/contact') {
         res.write("<h2>Contacts</h2>")
